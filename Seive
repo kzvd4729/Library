@@ -1,0 +1,16 @@
+///////////////////////////////////
+int Is_Prime[N+2];vector<int>Prime;
+void Seive(void)
+{
+  Prime.push_back(2);Is_Prime[1]=1;
+  for(int i=2;i<=N;i+=2)Is_Prime[i]=1;
+  int sq=sqrt(N+1);
+  for(int i=3;i<=N;i+=2)
+  {
+    if(Is_Prime[i])continue;Prime.push_back(i);
+    if(i>sq)continue;
+    for(int j=i*i;j<=N;j+=2*i)
+      Is_Prime[j]=1;
+  }
+}
+///////////////////////////////////
