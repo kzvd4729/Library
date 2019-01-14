@@ -1,0 +1,37 @@
+/********** Strongly Connected Component **********/
+int scc_desc[N+2],scc_low[N+2],scc_tim,scc_stacked[N+2],scc_anc[N+2];
+vector<int>scc_dir[N+2],scc_root;stack<int>scc_st;
+void Tarjan(int node)
+{
+  scc_desc[node]=scc_low[node]=++scc_tim;
+  scc_st.push(node);scc_stacked[node]=1;
+  for(auto x:scc_dir[node])
+  {
+    if(!scc_desc[x])
+    {
+      Tarjan(x);
+      scc_low[node]=min(scc_low[node],scc_low[x]);
+    }
+    else if(scc_stacked[x])
+      scc_low[node]=min(scc_low[node],scc_low[x]);
+  }
+  if(scc_low[node]==scc_desc[node])
+  {
+    int now=-1;
+    while(now!=node)
+    {
+      now=scc_st.top();scc_st.pop();
+      scc_stacked[now]=0;scc_anc[now]=node;
+    }
+    scc_root.push_back(node);
+  }
+}
+void Strongly_Connected_Component(int n)
+{
+  for(int i=1;i<=n;i++)
+  {
+    if(scc_desc[i])continue;
+    Tarjan(i);
+  }
+}
+//////////////////////////////////////////////////////
