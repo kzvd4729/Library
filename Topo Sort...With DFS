@@ -1,0 +1,24 @@
+/************ Topo Sort ***************/
+vector<int>topo_sorted,topo[N+2];
+int tp_vis[N+2];
+void Topo_sort(int node)
+{
+  tp_vis[node]=1;
+  for(auto x:topo[node])
+  {
+    if(tp_vis[x])continue;
+    Topo_sort(x);
+  }
+  topo_sorted.push_back(node);
+}
+vector<int>Topological_Sort(int n)
+{
+  for(int i=1;i<=n;i++)
+  {
+    if(tp_vis[i])continue;
+    Topo_sort(i);
+  }
+  reverse(topo_sorted.begin(),topo_sorted.end());
+  return topo_sorted;
+}
+//////////////////////////////////////////
