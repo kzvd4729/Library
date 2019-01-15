@@ -1,4 +1,4 @@
-///////////////////////////////////
+/************ Seive **************/
 int Is_Prime[N+2];vector<int>Prime;
 void Seive(int n)
 {
