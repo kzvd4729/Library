@@ -1,0 +1,17 @@
+/*************** Basic Geometry **************/
+double Triangle_Area_From_Three_Sides(double a,double b,double c)
+{
+  double s=(a+b+c)/2.0;
+  return sqrt(s*(s-a)*(s-b)*(s-c));
+}
+double Circum_Radius_of_Triangle_From_Three_Sides(double a,double b,double c)
+{
+  double dn=Triangle_Area_From_Three_Sides(a,b,c);
+  return (a*b*c)/(4*dn);
+}
+double Incircle_Radius_of_Triangle_From_Three_Sides(double a,double b,double c)
+{
+  double ar=Triangle_Area_From_Three_Sides(a,b,c);
+  return (2*ar)/(a+b+c);
+}
+////////////////////////////////////////////////////
