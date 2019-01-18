@@ -1,5 +1,9 @@
 /*************** Basic Geometry **************/
 const double pi=acos(-1.0);
+struct point
+{
+  double x,y;
+};
 double DegreetoRadian(double x)
 {
   return x*(pi/180.0);
@@ -7,6 +11,20 @@ double DegreetoRadian(double x)
 double RadiantoDegree(double x)
 {
   return x*(180.0/pi);
+}
+double Vector_Angle_With_X_Axis(point a)
+{
+  double ang=atan2(a.y,a.x);
+  ang=RadiantoDegree(ang);
+  if(ang<0)ang+=360.0;
+  return ang;
+}
+double Angle_Between_Two_Vector_Unsigned(point a,point b)
+{
+  double a1=Vector_Angle_With_X_Axis(a);
+  double b1=Vector_Angle_With_X_Axis(b);
+  double mn=fabs(a1-b1);mn=min(mn,a1+360-b1);
+  mn=min(mn,b1+360-a1);return mn;
 }
 double Triangle_Area_From_Three_Sides(double a,double b,double c)
 {
