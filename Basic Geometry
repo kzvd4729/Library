@@ -1,4 +1,13 @@
 /*************** Basic Geometry **************/
+const double pi=acos(-1.0);
+double DegreetoRadian(double x)
+{
+  return x*(pi/180.0);
+}
+double RadiantoDegree(double x)
+{
+  return x*(180.0/pi);
+}
 double Triangle_Area_From_Three_Sides(double a,double b,double c)
 {
   double s=(a+b+c)/2.0;
