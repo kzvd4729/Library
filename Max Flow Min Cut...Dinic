@@ -1,14 +1,14 @@
 /******************* Max Flow Min Cut *******************/
 const int Inf=1e9;
-struct Flow_Edge
+struct Edge
 {
   int a,b,f,c;
 };
-vector<Flow_Edge>Ed;
+vector<Edge>Ed;
 vector<int>FlowAdj[N+2];
 void Flow_Add_Edge(int a,int b,int c)
 {
-  Flow_Edge e;e={a,b,0,c};
+  Edge e;e={a,b,0,c};
   FlowAdj[a].push_back(Ed.size());
   Ed.push_back(e);e={b,a,0,0};
   //e={b,a,0,c}//Birectional
