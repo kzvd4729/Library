@@ -4,6 +4,10 @@ struct point
 {
   double x,y;
 };
+struct Equation
+{
+  double a,b,c;
+};
 double DegreetoRadian(double x)
 {
   return x*(pi/180.0);
@@ -40,5 +44,26 @@ double Incircle_Radius_of_Triangle_From_Three_Sides(double a,double b,double c)
 {
   double ar=Triangle_Area_From_Three_Sides(a,b,c);
   return (2*ar)/(a+b+c);
+}
+Equation Make_Equation(point p1,point p2)
+{
+  Equation eq;//ax+by=c;
+  eq.a=p1.y-p2.y;eq.b=p2.x-p1.x;
+  eq.c=p1.y*p2.x-p2.y*p1.x;
+  return eq;
+}
+Equation Perpendicular_On(Equation eq,point p)
+{
+  Equation rt;rt.a=eq.b;rt.b=-eq.a;
+  rt.c=rt.a*p.x+rt.b*p.y;return rt;
+}
+point Intersection(Equation e1,Equation e2)
+{
+  point ret;//Special care for det=0
+  double det=e1.a*e2.b-e1.b*e2.a;
+  double dx=e1.c*e2.b-e1.b*e2.c;
+  double dy=e1.a*e2.c-e1.c*e2.a;
+  ret.x=dx/det;ret.y=dy/det;
+  return ret;
 }
 ////////////////////////////////////////////////////
