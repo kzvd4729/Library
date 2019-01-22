@@ -1,5 +1,6 @@
 /*************** Basic Geometry **************/
 const double pi=acos(-1.0);
+const double eps=1e-9;
 struct point
 {
   double x,y;
@@ -78,7 +79,7 @@ double Dist(point p1,point p2)
 int Orientation(point p1,point p2,point p3)
 {
   double val=(p2.y-p1.y)*(p3.x-p2.x)-(p2.x-p1.x)*(p3.y-p2.y); 
-  if(fabs(val)<=0.000000000001)return 0;
+  if(fabs(val)<=eps)return 0;
   return (val>0)?1:-1;//clock or counterclock
 }
 ////////////////////////////////////////////////////
