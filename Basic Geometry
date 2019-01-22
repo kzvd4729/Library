@@ -57,6 +57,11 @@ Equation Perpendicular_On(Equation eq,point p)
   Equation rt;rt.a=eq.b;rt.b=-eq.a;
   rt.c=rt.a*p.x+rt.b*p.y;return rt;
 }
+Equation Parallel_With(Equation eq,point p)
+{
+  Equation rt;rt.a=eq.a;rt.b=eq.b;
+  rt.c=rt.a*p.x+rt.b*p.y;return rt;
+}
 point Intersection(Equation e1,Equation e2)
 {
   point ret;//Special care for det=0
