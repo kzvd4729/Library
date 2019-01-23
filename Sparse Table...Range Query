@@ -15,6 +15,7 @@ void Sparse_Min_Build(int n)
 }
 int Query_Min(int lt,int rt)
 {
+  //if(rt<lt)return 1e9;
   int dg=31-__builtin_clz(rt-lt+1);
   return min(sp_min[lt][dg],sp_min[rt-(1<<dg)+1][dg]);
 }
