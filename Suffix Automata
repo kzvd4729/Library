@@ -5,7 +5,7 @@ struct Automata
 {
   int len,link,next[26];
 }aut[A+A+2];
-void insrt(int c)
+void Insrt(int c)
 {
   int now=++Sz;aut[now].len=aut[Last].len+1;
   int p,q,cl;
