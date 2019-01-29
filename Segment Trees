@@ -34,3 +34,46 @@ Segment Qry_Max_Sum(int node,int lo,int hi,int lt,int rt)
   return p;
 }
 ///////////////////////////////////////////////////////
+
+
+/**************** Kth Number in a Range *****************/
+int Pr[N+2],Rt[N+2],R;
+struct Persistent
+{
+  int l,r,sm;
+}Seg[N*20+2];
+void Add(int node,int lo,int hi,int pnode,int id)
+{
+  if(lo==hi)
+  {
+    Seg[node].sm=Seg[pnode].sm+1;return ;
+  }
+  int md=(lo+hi)/2;
+  if(id<=md)
+  {
+    Seg[node].l=++R;Seg[node].r=Seg[pnode].r;
+    Add(Seg[node].l,lo,md,Seg[pnode].l,id);
+  }
+  else
+  {
+    Seg[node].r=++R;Seg[node].l=Seg[pnode].l;
+    Add(Seg[node].r,md+1,hi,Seg[pnode].r,id);
+  }
+  Seg[node].sm=Seg[Seg[node].l].sm+Seg[Seg[node].r].sm;
+}
+int Find(int node,int pnode,int lo,int hi,int kth)
+{
+  if(lo==hi)return lo;
+  int md=(lo+hi)/2;int xx=Seg[Seg[node].l].sm-Seg[Seg[pnode].l].sm;
+  if(xx>=kth)return Find(Seg[node].l,Seg[pnode].l,lo,md,kth);
+  else return Find(Seg[node].r,Seg[pnode].r,md+1,hi,kth-xx);
+}
+void Build(int n)
+{
+  for(int i=1;i<=n;i++)
+  {
+    Rt[i]=++R;Add(Rt[i],1,n,Rt[i-1],Pr[i]);
+  }
+  //cout<<Find(Rt[i],Rt[i-1],1,n,k)<<endl;
+}
+/////////////////////////////////////////////////////
