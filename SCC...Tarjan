@@ -1,6 +1,7 @@
 /********** Strongly Connected Component **********/
-int Desc[N+2],Low[N+2],Tim,Stacked[N+2],Anc[N+2];
-vector<int>Dir[N+2],Root;stack<int>St;
+const int S=1e6;
+int Desc[S+2],Low[S+2],Tim,Stacked[S+2],Anc[S+2];
+vector<int>Dir[S+2],Root;stack<int>St;
 void Tarjan(int node)
 {
   Desc[node]=Low[node]=++Tim;
