@@ -1,0 +1,15 @@
+/*************** BIT *****************/
+int Bit[N+2];
+void Upd(int x,int n,int vl)
+{
+  for( ;x<=n;x+=(x&-x))
+    Bit[x]+=vl;
+}
+int Sum(int x)
+{
+  int sum=0;
+  for( ;x>0;x-=(x&-x))
+    sum+=Bit[x];
+  return sum;
+}
+////////////////////////////////////////
