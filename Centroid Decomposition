@@ -1,0 +1,36 @@
+/*********** Centroid Decomposition ************/
+int Tot,Mark[N+2],Sz[N+2];
+vector<int>Adj[N+2];
+void Reckon(int node,int par)
+{
+  Tot++;Sz[node]=1;
+  for(auto x:Adj[node])
+  {
+    if(Mark[x]||x==par)continue;
+    Reckon(x,node);Sz[node]+=Sz[x];
+  }
+}
+int Find_Center(int node,int par)
+{
+  for(auto x:Adj[node])
+  {
+    if(x==par||Mark[x])continue;
+    if(Sz[x]>Tot/2)return Find_Center(x,node);
+  }
+  return node;
+}
+void Centroid(int node,int par)
+{
+  Tot=0;Reckon(node,-1);
+  int center=Find_Center(node,-1);
+  Mark[center]=1;
+
+  //cal //clear
+
+  for(auto x:Adj[center])
+  {
+    if(Mark[x])continue;
+    Centroid(x,center);
+  }
+}
+/////////////////////////////////////////////////
