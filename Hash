@@ -1,0 +1,37 @@
+/**************** Hash ******************/
+const long mod1=1000001011,mod2=1000009999;
+const int b1=193,b2=307;
+long pw1[N+2],pw2[N+2];
+void Call(int n)
+{
+  pw1[0]=1;pw2[0]=1;
+  for(int i=1;i<=n;i++)
+  {
+    pw1[i]=(pw1[i-1]*b1)%mod1;
+    pw2[i]=(pw2[i-1]*b2)%mod2;
+  }
+}
+struct Hash
+{
+  string s;vector<pair<long,long> >v;
+  pair<long,long>make_hash(void)
+  {
+    long hs1=0,hs2=0;
+    for(auto x:s)
+    {
+      hs1=(hs1*b1+x)%mod1;
+      hs2=(hs2*b2+x)%mod2;
+      v.push_back({hs1,hs2});
+    }
+    return {hs1,hs2};
+  }
+  pair<long,long>segment(int lt,int rt)
+  {
+    long x=v[rt].first,y=v[rt].second;
+    if(!lt)return {x,y};
+    x=(x-(v[lt-1].first*pw1[rt-lt+1])%mod1+mod1)%mod1;
+    y=(y-(v[lt-1].second*pw2[rt-lt+1])%mod2+mod2)%mod2;
+    return {x,y};
+  }
+}Hs[N+2];
+/////////////////////////////////////////
