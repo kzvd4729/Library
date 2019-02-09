@@ -1,8 +1,6 @@
 /************ Baby Step Giant Step ************/
 long BsGs(long a,long b,long m)
 {
-  //Find such k that a^k(mod m)=b;
-  //a and m have to be relatively prime
   int n=sqrt(m+1);long an=1;
   for(int i=0;i<n;i++)an=(an*a)%m;
   map<int,int>mp;//unoedered is good choice
@@ -26,4 +24,6 @@ long BsGs(long a,long b,long m)
   }
   return -1;//no solution
 }
+//Finds such k that a^k(mod m)=b;
+//a and m have to be relatively prime
 ////////////////////////////////////////////////////
