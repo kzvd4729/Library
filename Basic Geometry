@@ -102,4 +102,23 @@ bool Segment_Intersect(point p1,point q1,point p2,point q2)
   if(o4==0&&In_Rectangle(q1,p2,q2))return true; 
   return false; 
 }
+point Rotate_Vector(point p,double ang)
+{
+  //Expecting angle in radiant
+  //Rotating countar_clockwise
+  point ret;
+  ret.x=p.x*cos(ang)-p.y*sin(ang);
+  ret.y=p.x*sin(ang)+p.y*cos(ang);
+  return ret;
+}
+point Sub(point a,point b)
+{
+  a.x-=b.x;a.y-=b.y;
+  return a;
+}
+point Add(point a,point b)
+{
+  a.x+=b.x;a.y+=b.y;
+  return a;
+}
 ////////////////////////////////////////////////////
