@@ -49,3 +49,33 @@ int Gauss(vector<vector<double> >a,vector<double>&ans)
 //Right hand side of the equation will be inserted
 //as last column of a;
 ///////////////////////////////////////////////////
+
+
+/******** Gaussian Elemination *********/
+bitset<N>Gauss(vector<bitset<N> >a) 
+{
+  int n=a.size(),m=N;vector<int>wh(m,-1);
+  for(int col=0,row=0;col<m&&row<n;col++) 
+  {
+    for(int i=row;i<n;i++)
+    {
+      if(a[i][col]) 
+      {
+        swap(a[i],a[row]);break;
+      }
+    }
+    if(!a[row][col])
+      continue;
+    wh[col]=row;
+    for(int i=0;i<n;i++)
+      if(i!=row&&a[i][col])
+        a[i]^=a[row];
+    ++row;
+  }
+  bitset<N>ret;
+  for(int j=0;j<m;j++)
+    for(int i=0;i<n;i++)
+      ret[j]=ret[j]^a[i][j];
+  return ret;
+}
+//////////////////////////////////////////
