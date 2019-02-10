@@ -1,0 +1,75 @@
+/**************** HLD *****************/
+int Par[N+2],Lev[N+2],Sp[N+2][22];
+vector<int>Adj[N+2];int Sub[N+2];
+int Ent[N+2],Ext[N+2],Tim,Anc[N+2];
+void Reckon(int n,int p,int h)
+{
+  Par[n]=p;Lev[n]=h;Sub[n]=1;
+  for(auto &x:Adj[n])
+  {
+    if(x==p)continue;Reckon(x,n,h+1);
+    Sub[n]+=Sub[x];
+    if(Sub[x]>=Sub[Adj[n][0]])
+      swap(x,Adj[n][0]);
+  }
+}
+void Build_Sparse(int n)
+{
+  memset(Sp,-1,sizeof(Sp));
+  for(int i=1;i<=n;i++)
+    Sp[i][0]=Par[i];
+  for(int j=1;j<=20;j++)
+  {
+    for(int i=1;i<=n;i++)
+    {
+      if(Sp[i][j-1]==-1)continue;
+      Sp[i][j]=Sp[Sp[i][j-1]][j-1];
+    }
+  }
+}
+int Lca(int u,int v,int &d)
+{
+  if(Lev[u]<Lev[v])swap(u,v);d=0;
+  for(int i=20;i>=0;i--)
+  {
+    if(Lev[u]-(1<<i)>=Lev[v])
+      u=Sp[u][i],d+=(1<<i);
+  }
+  if(u==v)return u;
+  for(int i=20;i>=0;i--)
+  {
+    if(Sp[u][i]==-1||Sp[v][i]==-1)continue;
+    if(Sp[u][i]==Sp[v][i])continue;
+    u=Sp[u][i];v=Sp[v][i];d+=2*(1<<i);
+  }
+  d+=2;return Par[u];
+}
+void HLD(int n,int p)
+{
+  Ent[n]=++Tim;
+  for(auto x:Adj[n])
+  {
+    if(x==p)continue;//Anc[r]=r;
+    if(x==Adj[n][0])Anc[x]=Anc[n];
+    else Anc[x]=x;HLD(x,n);
+  }
+  Ext[n]=Tim;
+}
+int Hqry(int u,int lc)
+{
+  int ret=0;
+  while(Anc[u]!=Anc[lc])
+  {
+    int v=Anc[u];
+    //ret+=Sum(Ent[u])-Sum(Ent[v]-1);
+    u=Par[v];
+  }
+  //return ret+Sum(Ent[u])-Sum(Ent[lc]-1);
+}
+int Path(int u,int v)
+{
+  int d,ret=0;int lc=Lca(u,v,d);
+  ret=Hqry(u,lc)+Hqry(v,lc);
+  ret-=Hqry(lc,lc);return ret;
+}
+////////////////////////////////////////
