@@ -1,0 +1,51 @@
+/************* Gaussian Elemination **************/
+const double EPS=1e-9;
+int Gauss(vector<vector<double> >a,vector<double>&ans) 
+{
+  int n=a.size(),m=a[0].size()-1;
+  vector<int>wh(m,-1);
+  for(int col=0,row=0;col<m&&row<n;col++)
+  {
+    int sel=row;
+    for(int i=row;i<n;i++)
+      if(abs(a[i][col])>abs(a[sel][col]))
+        sel = i;
+    if(abs(a[sel][col])<EPS)
+      continue;
+    for(int i=col;i<=m;i++)
+      swap(a[sel][i],a[row][i]);
+    wh[col]=row;
+    for(int i=0;i<n;i++)
+    {
+      if(i!=row)
+      {
+        double c=a[i][col]/a[row][col];
+        for(int j=col;j<=m;j++)
+          a[i][j]-=a[row][j]*c;
+      }
+    }
+    row++;
+  }
+  ans.assign(m,0);
+  for(int i=0;i<m;i++)
+    if(wh[i]!=-1)
+      ans[i]=a[wh[i]][m]/a[wh[i]][i];
+  /*No Solution*/
+  for(int i=0;i<n;i++)
+  {
+    double sum=0;
+    for(int j=0;j<m;j++)
+      sum+=ans[j]*a[i][j];
+    if(abs(sum-a[i][m])>EPS)
+      return 0;
+  }
+  /*Infinity Solution*/
+  for(int i=0;i<m;i++)
+    if(wh[i]==-1)
+      return -1;
+  return 1;
+}
+//E(i)=1+Summationof(j=0toN-1)P[i][j]*E(j)
+//Right hand side of the equation will be inserted
+//as last column of a;
+///////////////////////////////////////////////////
