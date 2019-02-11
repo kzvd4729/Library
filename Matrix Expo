@@ -18,7 +18,7 @@ matrix Multiply(matrix a,matrix b)
         c.m[i][j]=(c.m[i][j]+a.m[i][k]*b.m[k][j])%Mod;
   return c;
 }
-matrix Bigmod(long x,matrix b)
+matrix Expo(long x,matrix b)
 {
   matrix r;//if(x<0)assert(0);
   for(int i=1;i<=M;i++)r.m[i][i]=1;
