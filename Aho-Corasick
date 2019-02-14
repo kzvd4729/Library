@@ -1,6 +1,7 @@
 /************* Aho Corasick ***************/
 const int W=26,A=1e6;
-int Nw;
+int Nw,Occur[A+2];
+vector<int>Frw[A+2];
 struct Aho_Corasick
 {
   int next[W+1],link,f;
@@ -16,7 +17,13 @@ void Aho_Insrt(string s,int id)
   }
   Trie[now].f=id;
 }
-void Aho_Build(void)
+int Count(int n)
+{
+  for(int i=0;i<Frw[n].size();i++)
+    Occur[n]+=Count(Frw[n][i]);
+  return Occur[n];
+}
+void Aho(string s)
 {
   queue<int>q;q.push(0);
   while(q.size())
@@ -34,5 +41,15 @@ void Aho_Build(void)
       else Trie[u].next[c]=Trie[v].next[c];
     }
   }
+  for(int i=1;i<=Nw;i++)
+    Frw[Trie[i].link].push_back(i);
+  int now=0;
+  for(int i=0;s[i];i++)
+  {
+    int c=s[i]-'a';
+    now=Trie[now].next[c];
+    Occur[now]++;
+  }
+  Count(0);
 }
 ////////////////////////////////////////////
