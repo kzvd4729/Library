@@ -1,0 +1,38 @@
+/************* Aho Corasick ***************/
+const int W=26,A=1e6;
+int Nw;
+struct Aho_Corasick
+{
+  int next[W+1],link,f;
+}Trie[A+2];
+void Aho_Insrt(string s,int id)
+{
+  int now=0;
+  for(int i=0;s[i];i++)
+  {
+    int c=s[i]-'a';
+    if(!Trie[now].next[c])Trie[now].next[c]=++Nw;
+    now=Trie[now].next[c];
+  }
+  Trie[now].f=id;
+}
+void Aho_Build(void)
+{
+  queue<int>q;q.push(0);
+  while(q.size())
+  {
+    int u=q.front();q.pop();
+    int v=Trie[u].link;
+    for(int c=0;c<W;c++)
+    {
+      int nx=Trie[u].next[c];
+      if(nx)
+      {
+        q.push(nx);if(!u)Trie[nx].link=0;
+        else Trie[nx].link=Trie[v].next[c];
+      }
+      else Trie[u].next[c]=Trie[v].next[c];
+    }
+  }
+}
+////////////////////////////////////////////
