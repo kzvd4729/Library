@@ -1,1 +1,2 @@
-
+1. x_1+x_2+x_3+.....+x_k=n
+    Number of solution of this equation is (n+k-1)C(k-1)
