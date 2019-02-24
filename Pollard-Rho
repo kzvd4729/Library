@@ -1,4 +1,4 @@
-/******************** Pollar-Rho Factorization **************/
+/******************** Pollard-Rho Factorization **************/
 unsigned long Multiply(unsigned long a,unsigned long b,unsigned long mod)
 {
   if(a>b)swap(a,b);unsigned long ret=0;
