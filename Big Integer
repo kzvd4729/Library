@@ -29,6 +29,12 @@ int Compare(string a,string b)
   }
   return 0;
 }
+string Abs(string s)
+{
+  if(s[0]=='-')
+    s.erase(s.begin());
+  return s;
+}
 string Add(string a,string b)
 {
   reverse(a.begin(),a.end());
