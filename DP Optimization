@@ -1,0 +1,54 @@
+/************ Convex Hull Trick ***********/
+int hsz,cur;
+const long inf=2e18;
+struct line
+{
+  long m,c;
+};
+vector<line>hull;
+bool isBad(line &p,line &q,line &r)
+{
+  return (p.c-r.c)*1.0/(r.m-p.m)>=(p.c-q.c)*1.0/(q.m-p.m);
+  //return (p.c-q.c)*(r.m-p.m)>=(p.c-r.c)*(q.m-p.m);//Overflow
+}
+void addLine(long m,long c)
+{
+  m*=-1LL,c*=-1LL;
+  if((int)hull.size()&&hull.back().m==m)
+  {
+    if(hull.back().c>c)hull.pop_back();
+    else return ;
+  }
+  hull.push_back({m,c});hsz++;
+  while(hsz>2&&isBad(hull[hsz-3],hull[hsz-2],hull[hsz-1]))
+  {
+    swap(hull[hsz-2], hull[hsz-1]);
+    hull.pop_back();hsz--;
+  }
+}
+long Qry1(long x)
+{
+  if(hsz==0)assert(0);
+  int l=-1,r=hsz-1;
+  while(r-l>1)
+  {
+    int m=(l+r)/2;
+    if(hull[m].m*x+hull[m].c>=hull[m+1].m*x+hull[m+1].c)
+      l=m;
+    else r=m;
+  }
+  return -(hull[r].m*x+hull[r].c);
+}
+long Qry2(long x)
+{
+  if(hsz==0)assert(0);
+  if(cur>=hsz)cur=hsz-1;
+  while(cur+1<hsz)
+  {
+    if(hull[cur].m*x+hull[cur].c>hull[cur+1].m*x+hull[cur+1].c)
+      cur++;
+    else break;
+  }
+  return -(hull[cur].m*x+hull[cur].c);
+}
+////////////////////////////////////////////
