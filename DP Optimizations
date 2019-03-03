@@ -1,54 +1,33 @@
 /************ Convex Hull Trick ***********/
-int hsz,cur;
-const long inf=2e18;
-struct line
+pair<long,long>stk[N+2];int top;
+bool isBad(int i,int j,int k)
 {
-  long m,c;
-};
-vector<line>hull;
-bool isBad(line &p,line &q,line &r)
-{
-  return (p.c-r.c)*1.0/(r.m-p.m)>=(p.c-q.c)*1.0/(q.m-p.m);
-  //return (p.c-q.c)*(r.m-p.m)>=(p.c-r.c)*(q.m-p.m);//Overflow
+  long fup,fdw,sup,sdw;
+  fup=(stk[i].second-stk[k].second);fdw=(stk[k].first-stk[i].first);
+  sup=(stk[i].second-stk[j].second);sdw=(stk[j].first-stk[i].first);
+  return ((fup*1.0)*sdw)>=((fdw*1.0)*sup);//for min <=
 }
-void addLine(long m,long c)
+void addLine(pair<long,long>p)
 {
-  m*=-1LL,c*=-1LL;
-  if((int)hull.size()&&hull.back().m==m)
+  stk[++top]=p;
+  while(top>=3&&isBad(top-2,top-1,top))
   {
-    if(hull.back().c>c)hull.pop_back();
-    else return ;
-  }
-  hull.push_back({m,c});hsz++;
-  while(hsz>2&&isBad(hull[hsz-3],hull[hsz-2],hull[hsz-1]))
-  {
-    swap(hull[hsz-2], hull[hsz-1]);
-    hull.pop_back();hsz--;
+    stk[top-1]=stk[top];top--;
   }
 }
-long Qry1(long x)
+long getMax(long x)
 {
-  if(hsz==0)assert(0);
-  int l=-1,r=hsz-1;
-  while(r-l>1)
+  long lo=1,hi=top,md,on,tw;
+  while(hi-lo>2)
   {
-    int m=(l+r)/2;
-    if(hull[m].m*x+hull[m].c>=hull[m+1].m*x+hull[m+1].c)
-      l=m;
-    else r=m;
+    md=(lo+hi)/2;
+    on=stk[md].first*x+stk[md].second;
+    tw=stk[md+1].first*x+stk[md+1].second;
+    if(tw<on)hi=md;else lo=md;//reverse for min
   }
-  return -(hull[r].m*x+hull[r].c);
-}
-long Qry2(long x)
-{
-  if(hsz==0)assert(0);
-  if(cur>=hsz)cur=hsz-1;
-  while(cur+1<hsz)
-  {
-    if(hull[cur].m*x+hull[cur].c>hull[cur+1].m*x+hull[cur+1].c)
-      cur++;
-    else break;
-  }
-  return -(hull[cur].m*x+hull[cur].c);
+  long ret=0;//check for min;
+  for(md=lo;md<=hi;md++)
+    ret=max(ret,stk[md].first*x+stk[md].second);
+  return ret;
 }
 ////////////////////////////////////////////
