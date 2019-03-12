@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.example.cse.march121.MainActivity">
+    <EditText
+        android:id="@+id/marks_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Enter Your Marks" />
+    <Button
+        android:id="@+id/find_marks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:onClick="onClickFindGrade"
+        android:text="@string/cal" />
+    <TextView
+        android:id="@+id/textViewShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint=" " />
+</LinearLayout>
+
+
+<resources>
+
+    <string name="app_name">Grade Finder</string>
+    <string name="cal">Calculate</string>
+    <string name="grade"> </string>
+
+</resources>
+
+
+
+package com.example.cse.march121;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity
+{
+    EditText edt_marks;
+    TextView show;
+    Button find;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        edt_marks = findViewById(R.id.marks_input);
+        find = findViewById(R.id.find_marks);
+        show = findViewById(R.id.textViewShow);
+    }
+    public void onClickFindGrade(View view)
+    {
+
+        String valueString = edt_marks.getText().toString();
+        int n = Integer.parseInt(valueString);
+
+        String grade;
+        if( n > 100 || n < 0 )grade = "Invalid Marks";
+        else if( n >= 80 )grade = "Grade A+";
+        else if( n >= 75 )grade = "Grade A";
+        else if( n >= 70 )grade = "Grade A-";
+        else if( n >= 65 )grade = "Grade B+";
+        else if( n >= 60 )grade = "Grade B-";
+        else if( n >= 55 )grade = "Grade C";
+        else if( n >= 50 )grade = "Grade D";
+        else if( n >= 40 )grade = "Grade E";
+        else grade = "You Have Failed";
+
+        show.setText(grade);
+
+
+    }
+}
