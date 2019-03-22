@@ -27,7 +27,7 @@ void dfs(int node,int pre)
       }
     }
     else if(next!=pre)
-      low[node]=min(low[node],desc[next]);
+      low[node]=min(low[node],low[next]);
   }
 }
 int main()
