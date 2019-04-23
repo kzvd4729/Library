@@ -79,3 +79,39 @@ bitset<N>Gauss(vector<bitset<N> >a)
   return ret;
 }
 //////////////////////////////////////////
+
+
+
+void gauss(vector<vector<long>>a,vector<long>&ans)
+{
+  long n=a.size(),m=a[0].size()-1;
+  vector<long>wh(m,-1);
+  for(long col=0,row=0;col<m&&row<n;col++)
+  {
+    long swp=-1;
+    for(long i=row;i<n;i++)
+    {
+      if(a[i][col])
+      {
+        swp=i;break;
+      }
+    }
+    if(swp==-1)continue;
+    for(long i=col;i<=m;i++)swap(a[row][i],a[swp][i]);
+    wh[col]=row;
+    for(long i=0;i<n;i++)
+    {
+      if(i==row)continue;
+      long c=(a[i][col]*inv(a[row][col]))%mod;
+      for(long j=0;j<=m;j++)
+        a[i][j]=(a[i][j]-(a[row][j]*c)%mod+mod)%mod;
+    }
+    row++;
+  }
+  ans.assign(m,0);
+  for(long i=0;i<m;i++)
+  {
+    if(wh[i]==-1)continue;
+    ans[i]=(a[wh[i]][m]*inv(a[wh[i]][i]))%mod;
+  }
+}
