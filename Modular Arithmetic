@@ -1,0 +1,4 @@
+long inv(long a,long b)
+{
+ return 1<a?b-inv(b%a,a)*b/a:1;
+}
