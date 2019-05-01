@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+#define long long long
+using namespace std;
+int main()
+{
+  ifstream ans("real.txt");
+  ifstream out("dumy.txt");
+  string a,b;
+  while(ans>>a)
+  {
+    if(!(out>>b))cout<<"dont match"<<endl,exit(0);
+    if(a!=b)cout<<"dont match"<<endl,exit(0);
+  }
+  if(out>>b)cout<<"dont match"<<endl,exit(0);
+  cout<<"ok"<<endl;
+  return 0;
+}
