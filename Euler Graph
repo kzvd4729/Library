@@ -1,4 +1,7 @@
 //Path and circuit for directed
+//For euler circuit all node have
+//to be in a single connected
+//component
 #include<bits/stdc++.h>
 #define long long long
 using namespace std;
