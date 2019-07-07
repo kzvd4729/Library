@@ -1,10 +1,12 @@
 /****************** Notes ********************/
-1. x_1+x_2+x_3+.....+x_k=n
+--> x_1+x_2+x_3+.....+x_k=n
     Number of solution of this equation is (n+k-1)C(k-1)
-2. memset(aa,0x3F3F3F3F,sizeof(aa)); aa[0]=4557430888798830399
-3. Brooks' Therorem: For any connected undirected graph G with 
-   maximum degree Δ, the chromatic number of G is at most Δ unless
-   G is a complete graph or an odd cycle, in which case the 
-   chromatic number is Δ + 1.
+--> memset(aa,0x3F3F3F3F,sizeof(aa)); aa[0]=4557430888798830399
+--> Brooks' Therorem: For any connected undirected graph G with 
+    maximum degree Δ, the chromatic number of G is at most Δ unless
+    G is a complete graph or an odd cycle, in which case the 
+    chromatic number is Δ + 1.
+--> Conversion from diamond shaped(Manhattan Distance) to square
+    shaped (x,y)->(x-y,x+y);
 
 //////////////////////////////////////////////
