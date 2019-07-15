@@ -35,3 +35,29 @@ void range(int lo,int hi,long vl)
   upd(hi,-vl,vl*hi);
 }
 ///////////////////////////////////////
+
+/********** 2D bit ****************/
+void upd(int x,int y)
+{
+  for( ;x<=N;x+=x&-x)
+  {
+    int yy=y;
+    for( ;y<=N;y+=y&-y)
+      bit[x][y]++;
+    y=yy;
+  }
+}
+int get(int x,int y)
+{
+  int ret=0;
+  for( ;x>0;x-=x&-x)
+  {
+    int yy=y;
+    for( ;y>0;y-=y&-y)
+      ret+=bit[x][y];
+    y=yy;
+  }
+  return ret;
+}
+get(c,d)-get(a-1,d)-get(c,b-1)+get(a-1,b-1)
+/******************************************/
