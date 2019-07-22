@@ -112,7 +112,7 @@ vector<int>multiply(vector<int>&a,vector<int>&b)
 
 //mod have to be of the form c*2^k+1;
 //2^k have to be greater than length;
-const int mod=786433,r=10;//generator
+const int mod=786433,r=10;//generator//primitive root
 int big(int b,int p)
 {
   int ret=1;
