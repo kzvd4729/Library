@@ -112,6 +112,15 @@ vector<int>multiply(vector<int>&a,vector<int>&b)
 
 //mod have to be of the form c*2^k+1;
 //2^k have to be greater than length;
+//instead of calculating polynomial of 
+//order k, calculate over DFT coefficient
+//998244353 g=3 23
+//1004535809 g=3 19
+//469762049 g=3 26
+//10000093151233 g=5 26
+//1000000523862017 g=3 26
+//1000000000949747713 g=2 26
+
 const int mod=786433,r=10;//generator//primitive root
 int big(int b,int p)
 {
