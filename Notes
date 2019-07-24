@@ -8,5 +8,6 @@
     chromatic number is Δ + 1.
 --> Conversion from diamond shaped(Manhattan Distance) to square
     shaped (x,y)->(x-y,x+y);
+--> All submask for(int sub=msk;sub>0;sub=(sub-1)&msk)
 
 //////////////////////////////////////////////
