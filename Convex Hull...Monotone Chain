@@ -42,5 +42,7 @@ vector<point>MonotoneChain(vector<point>v)
   while(Stack.size())
     hull.push_back(Stack.top()),Stack.pop();
   return hull;
+  //returns cpunter-clock-wise;
+  //first=last;
 }
 /////////////////////////////////////////////////
