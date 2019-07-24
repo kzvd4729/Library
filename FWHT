@@ -1,0 +1,115 @@
+//or
+void fwht(vector<int>&a,bool inv)
+{
+  int n=a.size();//sizeof(a) is power of two;
+  for(int len=1;2*len<=n;len<<=1)
+  {
+    for(int i=0;i<n;i+=2*len)
+    {
+      for(int j=0;j<len;j++)
+      {
+        int u=a[i+j],v=a[i+j+len];
+        if(!inv)
+        {
+          a[i+j]=(u+v>=mod?u+v-mod:u+v);
+          a[i+len+j]=u;
+        }
+        else
+        {
+          a[i+j]=v;
+          a[i+len+j]=(u-v<0?u-v+mod:u-v);
+        }
+      }
+    }
+  }
+}
+
+
+//xor
+int big(int b,int p)
+{
+  int ret=1;
+  while(p)
+  {
+    if(p%2)ret=(1LL*ret*b)%mod;
+    b=(1LL*b*b)%mod;p/=2;
+  }
+  return ret;
+}
+void fwht(vector<int>&a,bool inv)
+{
+  int n=a.size();//sizeof(a) is power of two;
+  for(int len=1;2*len<=n;len<<=1)
+  {
+    for(int i=0;i<n;i+=2*len)
+    {
+      for(int j=0;j<len;j++)
+      {
+        int u=a[i+j],v=a[i+j+len];
+        a[i+j]=(u+v>=mod?u+v-mod:u+v);
+        a[i+j+len]=(u-v<0?u-v+mod:u-v);
+      }
+    }
+  }
+  if(inv)
+  {
+    int inv=big(n,mod-2);
+    for(int i=0;i<n;i++)
+      a[i]=(1LL*a[i]*inv)%mod;
+  }
+}
+void multiply(vector<int>&a,int p)
+{
+  int sz=a.size(),n=1;
+  while(n<sz)n<<=1;
+  a.resize(n);fwht(a,0);
+  for(int i=0;i<n;i++)
+    a[i]=big(a[i],p);
+  fwht(a,1);
+}
+
+
+//and
+int big(int b,int p)
+{
+  int ret=1;
+  while(p)
+  {
+    if(p%2)ret=(1LL*ret*b)%mod;
+    b=(1LL*b*b)%mod;p/=2;
+  }
+  return ret;
+}
+void fwht(vector<int>&a,bool inv)
+{
+  int n=a.size();//sizeof(a) is power of two;
+  for(int len=1;2*len<=n;len<<=1)
+  {
+    for(int i=0;i<n;i+=2*len)
+    {
+      for(int j=0;j<len;j++)
+      {
+        int u=a[i+j],v=a[i+j+len];
+        if(!inv)
+        {
+          a[i+j]=v;
+          a[i+len+j]=(u+v>=mod?u+v-mod:u+v);
+        }
+        else
+        {
+          a[i+j]=(v-u<0?v-u+mod:v-u);
+          a[i+len+j]=u;
+        }
+      }
+    }
+  }
+}
+void multiply(vector<int>&a,int p)
+{
+  int sz=a.size(),n=1;
+  while(n<sz)n<<=1;
+  a.resize(n);fwht(a,0);
+  for(int i=0;i<n;i++)
+    a[i]=big(a[i],p);
+  fwht(a,1);
+}
