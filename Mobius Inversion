@@ -30,8 +30,6 @@ void linearSieve(int n)
     }
   }
 }
-
-
 /*
 Mobius function: 
 μ(n)=  1 if n is square-free with even number of prime factors.
@@ -55,3 +53,15 @@ void linearSieve(int n)
     }
   }
 }
+
+/*
+mobius formula summation(d|n)u(d)=[n=1].
+n is the formula which has boolean value 1.
+u(d) is mobius function.
+sum
+some common formula:
+number of co-prime pair: sum(d=1 to n)u(d)((int)(n/d))^2.
+all pair gcd sum: sum(k=1 to n)k sum(d=1 to (int)n/k)u(d)((int)n/kd)^2.
+all pair lcm sum: sum(k=1 to n)k sum(d=1 to (int)n/k)u(d)d^2{(1+((int)n/kd))((int)n/kd)/2}^2.
+*/
+//https://codeforces.com/blog/entry/53925
