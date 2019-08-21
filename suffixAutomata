@@ -4,9 +4,11 @@ struct node
 };
 struct suffixAutomata
 {
-  int sz,last;
-  suffixAutomata(){sz=0,last=0;}
-  node aut[N+N+2];//2*insrt function call
+  int sz,last;node aut[N+N+2];//2*insrt function call
+  suffixAutomata()
+  {
+    sz=0,last=0;aut[0].link=-1;
+  }
   void insrt(int c)
   {
     int now=++sz;aut[now].len=aut[last].len+1;
