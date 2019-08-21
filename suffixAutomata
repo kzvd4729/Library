@@ -1,0 +1,35 @@
+struct node
+{
+  int len,link,next[26];
+};
+struct suffixAutomata
+{
+  int sz,last;
+  suffixAutomata(){sz=0,last=0;}
+  node aut[N+N+2];//2*insrt function call
+  void insrt(int c)
+  {
+    int now=++sz;aut[now].len=aut[last].len+1;
+    int p,q,cl;
+    for(p=last;p!=-1&&!aut[p].next[c];p=aut[p].link)
+      aut[p].next[c]=now;
+    if(p==-1)
+      aut[now].link=0;
+    else
+    {
+      q=aut[p].next[c];
+      if(aut[p].len+1==aut[q].len)
+        aut[now].link=q;
+      else
+      {
+        cl=++sz;aut[cl].len=aut[p].len+1;
+        aut[cl].link=aut[q].link;
+        memcpy(aut[cl].next,aut[q].next,sizeof(aut[cl].next));
+        for( ;p!=-1&&aut[p].next[c]==q;p=aut[p].link)
+          aut[p].next[c]=cl;
+        aut[now].link=aut[q].link=cl;
+      }
+    }
+    last=now;
+  }
+};
