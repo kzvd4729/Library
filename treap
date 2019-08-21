@@ -39,6 +39,7 @@ pair<int,int>splitbySize(int node,int ss)
     return {node,p.second};
   }
 }
+//possible if both tree maintains the properties of bst.
 int join(int lt,int rt)
 {
   if(!lt)return rt;if(!rt)return lt;
