@@ -2,7 +2,7 @@
 z[i] means maximum length of substring
 starting from i matches with prefix.
 */
-vector<int>zfunction(string s)
+vector<int>zFunction(string s)
 {
   int n=s.size();vector<int>z(n);
   z[0]=0;//l,r maintains a window with maximum r
