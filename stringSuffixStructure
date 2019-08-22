@@ -4,7 +4,7 @@ struct node
 };
 struct suffixAutomata
 {
-  int sz,last;node aut[N+N+2];//2*insrt function call
+  int sz,last,occur[N+N+2];node aut[N+N+2];//2*insrt function call
   suffixAutomata()
   {
     sz=0,last=0;aut[0].link=-1;
@@ -12,7 +12,7 @@ struct suffixAutomata
   void insrt(int c)
   {
     int now=++sz;aut[now].len=aut[last].len+1;
-    int p,q,cl;
+    occur[now]=1;int p,q,cl;
     for(p=last;p!=-1&&!aut[p].next[c];p=aut[p].link)
       aut[p].next[c]=now;
     if(p==-1)
@@ -33,6 +33,16 @@ struct suffixAutomata
       }
     }
     last=now;
+  }
+  vector<int>vLen[N+2];
+  //number of occurence for every state;
+  void occurences(void)
+  {
+    for(int i=1;i<=sz;i++)
+      vLen[aut[i].len].push_back(i);
+    for(int i=N;i>=1;i--)//N=string size;
+      for(auto x:vLen[i])
+        occur[aut[x].link]+=occur[x];
   }
   int longestCommonSubstring(string s)
   {
