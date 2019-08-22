@@ -26,7 +26,8 @@ struct suffixAutomata
       {
         cl=++sz;aut[cl].len=aut[p].len+1;
         aut[cl].link=aut[q].link;
-        memcpy(aut[cl].next,aut[q].next,sizeof(aut[cl].next));
+        memcpy(aut[cl].next,aut[q].next,sizeof(aut[cl].next));//for array
+        //aut[cl].next=aut[q].next;//for map
         for( ;p!=-1&&aut[p].next[c]==q;p=aut[p].link)
           aut[p].next[c]=cl;
         aut[now].link=aut[q].link=cl;
