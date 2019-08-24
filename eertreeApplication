@@ -1,6 +1,7 @@
 struct eertree
 {
   int sz,last,palCnt[N+2];
+  int suff[N+2];//number of palindrome ending at position i
   struct node
   {
     int next[26],len,link;
@@ -8,6 +9,7 @@ struct eertree
   void constructor(void)
   {
     memset(pal,0,sizeof(pal));
+    memset(palCnt,0,sizeof(palCnt));
     pal[0].len=-1,pal[0].link=0;
     pal[1].len=0,pal[1].link=0;
     sz=1,last=1;
@@ -26,9 +28,12 @@ struct eertree
         pal[sz].len=pal[last].len+2;
         if(pal[sz].len==1)pal[sz].link=1;
         else pal[sz].link=pal[x].next[c];
+
+        palCnt[sz]=1+palCnt[pal[sz].link];
+        suff[p]=palCnt[sz];
       }
+      else suff[p]=palCnt[pal[last].next[c]];
       last=pal[last].next[c];
-      palCnt[sz]=palCnt[pal[last].link]+1;
       /*number of palindrome ending index p*/
     }
   }
