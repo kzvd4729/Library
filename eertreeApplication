@@ -34,7 +34,6 @@ struct eertree
       }
       else suff[p]=palCnt[pal[last].next[c]];
       last=pal[last].next[c];
-      /*number of palindrome ending index p*/
     }
   }
 };
