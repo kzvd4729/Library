@@ -2,6 +2,7 @@ struct eertree
 {
   int sz,last,palCnt[N+2];
   int suff[N+2];//number of palindrome ending at position i
+  int occur[N+2];//number of occurrences for every state.
   struct node
   {
     int next[26],len,link;
@@ -10,6 +11,7 @@ struct eertree
   {
     memset(pal,0,sizeof(pal));
     memset(palCnt,0,sizeof(palCnt));
+    memset(occur,0,sizeof(occur));
     pal[0].len=-1,pal[0].link=0;
     pal[1].len=0,pal[1].link=0;
     sz=1,last=1;
@@ -33,7 +35,11 @@ struct eertree
         suff[p]=palCnt[sz];
       }
       else suff[p]=palCnt[pal[last].next[c]];
-      last=pal[last].next[c];
+      last=pal[last].next[c];occur[last]++;
     }
+  }
+  void occurrences(void)
+  {
+    for(int i=sz;i>=2;i--)occur[pal[i].link]+=occur[i];
   }
 };
