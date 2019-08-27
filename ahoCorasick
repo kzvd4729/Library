@@ -5,7 +5,11 @@ struct ahoCorasick
     int next[26],link;
   }trie[N+2];
   int nw;
-  ahoCorasick(){nw=0;}
+  void clean(void)
+  {
+    memset(trie,0,sizeof(trie));
+    nw=0;
+  }
   void insrt(string s)
   {
     int now=0,n=s.size();
