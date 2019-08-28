@@ -5,17 +5,18 @@ struct ahoCorasick
     int next[26],link;
   }trie[N+2];
   int sz,occur[N+2];//for occurrence of every state
+  int suff[N+2];//suffix link of end position
   vector<int>tree[N+2];
   void clean(int n=N)
   {
     for(int i=0;i<=n;i++)
     {
       memset(trie[i].next,0,sizeof(trie[i].next));
-      occur[i]=0;tree[i].clear();
+      occur[i]=0;tree[i].clear();suff[i]=0;
     }
     sz=0;
   }
-  void insrt(string s)
+  int insrt(string s)
   {
     int now=0,n=s.size();
     for(int i=0;i<n;i++)
@@ -24,6 +25,7 @@ struct ahoCorasick
       if(!trie[now].next[c])trie[now].next[c]=++sz;
       now=trie[now].next[c];
     }
+    suff[now]=now;return now;
   }
   void bfs(void)
   {
@@ -50,10 +52,11 @@ struct ahoCorasick
       tree[trie[i].link].push_back(i);
   }
   /*calculate occurrence of every state for string s*/
-  int dfs(int nd)
+  int dfs(int nd,int par)
   {
+    if(par!=-1&&!suff[nd])suff[nd]=suff[par];
     for(auto x:tree[nd])
-      occur[nd]+=dfs(x);
+      occur[nd]+=dfs(x,nd);
     return occur[nd];
   }
   void calOccur(string s)
@@ -64,7 +67,7 @@ struct ahoCorasick
       now=trie[now].next[x-'a'];
       occur[now]++;
     }
-    dfs(0);
+    dfs(0,-1);
   }
   /*return state number of string s*/
   int stateNumber(string s)
