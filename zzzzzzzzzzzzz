@@ -1,0 +1,73 @@
+#include<bits/stdc++.h>
+#define long long long
+using namespace std;
+const int N=1e6;
+
+typedef vector<vector<int> > v2d;
+v2d multiply(v2d &a,v2d &b)
+{
+  int d=a.size(),e=a[0].size();
+  int f=b.size(),g=b[0].size();
+  if(e!=f)assert(0);//impossible to multiply
+  v2d c;c.resize(d);
+  for(int i=0;i<d;i++)
+  {
+    c[i].resize(g,0);
+    for(int j=0;j<g;j++)
+      for(int k=0;k<e;k++)
+        c[i][j]=(c[i][j]+1LL*a[i][k]*b[k][j])%mod;
+  }
+  return c;
+}
+v2d expo(v2d &a,long p)
+{
+  int n=a.size();if(a[0].size()!=n)assert(0);//impossible
+  v2d ret;ret.resize(n);
+  for(int i=0;i<n;i++)ret[i].resize(n);
+  for(int i=0;i<n;i++)ret[i][i]=1;
+  while(x)
+  {
+    if(x&1)r=multiply(r,b,n);
+    b=multiply(b,b,n);x/=2;
+  }
+  return r;
+}
+
+const int M=100;
+const int mod=998244353;
+struct matrix
+{
+  int m[M+2][M+2];
+  matrix()
+  {
+    memset(m,0,sizeof(m));
+  }
+  matrix multiply(matrix a,int n)
+  {
+    matrix c;
+    for(int i=1;i<=n;i++)
+      for(int j=1;j<=n;j++)
+        for(int k=1;k<=n;k++)
+          c.m[i][j]=(c.m[i][j]+1LL*m[i][k]*a.m[k][j])%mod;
+    return c;
+  }
+  matrix expo(long x,int n)
+  {
+    matrix r;//if(x<0)assert(0);
+    for(int i=1;i<=n;i++)r.m[i][i]=1;
+    while(x)
+    {
+      if(x&1)r=multiply(r,b,n);
+      b=multiply(b,b,n);x/=2;
+    }
+    return r;
+  }
+};
+//matrix*column_vector=function_column_vector
+
+int main()
+{
+  ios_base::sync_with_sdio(0);cin.tie(0);
+
+  return 0;
+}
