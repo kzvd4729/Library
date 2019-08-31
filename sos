@@ -23,6 +23,7 @@ void suboptimal(int n)
       dp[msk]+=aa[i];
   }
 }
+//sum over subset
 void sos(int n)
 {
   for(int i=0;i<(1<<n);i++)
@@ -33,6 +34,20 @@ void sos(int n)
     for(int msk=0;msk<(1<<n);msk++)
     {
       if(msk&(1<<i))
+        dp[msk]+=dp[msk^(1<<i)];
+    }
+  }
+}
+//sum of id where msk is subset of id
+void sos(int n)
+{
+  for(int i=0;i<(1<<n);i++)
+    dp[i]=aa[i];
+  for(int i=0;i<n;i++)
+  {
+    for(int msk=(1<<n)-1;msk;msk--)
+    {
+      if(!(msk&(1<<i)))
         dp[msk]+=dp[msk^(1<<i)];
     }
   }
