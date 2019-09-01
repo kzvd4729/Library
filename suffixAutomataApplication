@@ -1,16 +1,19 @@
-struct node
-{
-  int len,link,next[26];
-};
 struct suffixAutomata
 {
   int sz,last,occur[N+N+2];
-  node aut[N+N+2];//2*insrt function call
-  void clean(int n=N)
+  struct node
+  {
+    int len,link,next[26];
+  }aut[N+N+2];//2*insrt function call
+  void clean(int n=N)//must call before insert
   {
     for(int i=0;i<=n+n;i++)
       memset(aut[i].next,0,sizeof(aut[i].next));
     sz=0,last=0,aut[0].link=-1;
+  }
+  int con(char c)//check for word size
+  {
+    return c-'a';
   }
   void insrt(int c)
   {
@@ -40,15 +43,15 @@ struct suffixAutomata
   }
   void insrt(string s)
   {
-    for(auto x:s)insrt((int)(x-'a'));
+    for(auto x:s)insrt(con(x));
   }
-  vector<int>vLen[N+2];
-  //number of occurence for every state;
-  void occurences(void)
+  //number of occurrences for every state;
+  void occurences(int n)//n=string size;
   {
+    vector<vector<int> >vLen(n+2);
     for(int i=1;i<=sz;i++)
       vLen[aut[i].len].push_back(i);
-    for(int i=N;i>=1;i--)//N=string size;
+    for(int i=n;i>=1;i--)
       for(auto x:vLen[i])
         occur[aut[x].link]+=occur[x];
   }
@@ -57,7 +60,7 @@ struct suffixAutomata
     int now=0,len=0,mx=0;
     for(auto x:s)
     {
-      int c=x-'a',p;
+      int c=con(x),p;
       if(aut[now].next[c])
         len++,now=aut[now].next[c];
       else
