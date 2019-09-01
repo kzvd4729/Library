@@ -1,4 +1,9 @@
-/*automata is a dag*/
+/*
+automata is a dag
+every state defines some substring with same suffix
+suffix link of a state defines a unique substring(thats why we need clone)
+reversed suffix link form suffix tree
+*/
 struct node
 {
   int len,link,next[26];
