@@ -1,3 +1,4 @@
+/*automata is a dag*/
 struct node
 {
   int len,link,next[26];
