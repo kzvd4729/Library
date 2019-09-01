@@ -1,6 +1,7 @@
 struct suffixAutomata
 {
   int sz,last,occur[N+N+2];
+  long pathCnt[N+N+2];//numbers of path starting from state i
   struct node
   {
     int len,link,next[26];
@@ -8,7 +9,10 @@ struct suffixAutomata
   void clean(int n=N)//must call before insert
   {
     for(int i=0;i<=n+n;i++)
+    {
       memset(aut[i].next,0,sizeof(aut[i].next));
+      pathCnt[i]=0;
+    }
     sz=0,last=0,aut[0].link=-1;
   }
   int con(char c)//check for word size
@@ -54,6 +58,35 @@ struct suffixAutomata
     for(int i=n;i>=1;i--)
       for(auto x:vLen[i])
         occur[aut[x].link]+=occur[x];
+  }
+  long countPath(int now)
+  {
+    if(pathCnt[now])return pathCnt[now];
+    pathCnt[now]=(bool)now;
+    for(int i=0;i<26;i++)//word size
+      if(aut[now].next[i])
+        pathCnt[now]+=countPath(aut[now].next[i]);
+    return pathCnt[now];
+  }
+  string kth(long k)
+  {
+    string ans;int now=0;
+    if(k>pathCnt[0])return ans;
+    while(k)
+    {
+      for(int i=0;i<26;i++)
+      {
+        if(!aut[now].next[i])continue;
+        int nx=aut[now].next[i];
+        if(pathCnt[nx]>=k)
+        {
+          ans.push_back((char)(i+'a'));
+          k--;now=nx;break;
+        }
+        else k-=pathCnt[nx];
+      }
+    }
+    return ans;
   }
   int longestCommonSubstring(string s)
   {
