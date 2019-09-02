@@ -1,11 +1,14 @@
 /*
 to insert one more string make sam.last=0 before every string insertion.
 if(aut[aut[i].link].len<aut[i].len)then state i is unique.
+sort the suffix with their dfs timing order in prefix tree
 */
 struct suffixAutomata
 {
-  int sz,last,occur[N+N+2];
+  int sz,last,occur[N+N+2],ent[N+N+2];
+  int sp[N+N+2][18],tim,lev[N+2];
   long pathCnt[N+N+2];//numbers of path starting from state i
+  vector<int>tree[N+N+2];
   struct node
   {
     int len,link,next[26];
@@ -15,7 +18,7 @@ struct suffixAutomata
     for(int i=0;i<=n+n;i++)
     {
       memset(aut[i].next,0,sizeof(aut[i].next));
-      pathCnt[i]=0;
+      pathCnt[i]=0;tree[i].clear();tim=0;
     }
     sz=0,last=0,aut[0].link=-1;
   }
@@ -52,6 +55,46 @@ struct suffixAutomata
   void insrt(string s)
   {
     for(auto x:s)insrt(con(x));
+  }
+  void dfs(int nd,int lv)
+  {
+    ent[nd]=++tim;lev[nd]=lv;
+    for(auto x:tree[nd])
+      dfs(x,lv+1);
+  }
+  void makeTree(void)
+  {
+    for(int i=1;i<=sz;i++)
+    {
+      tree[aut[i].link].push_back(i);
+      sp[i][0]=aut[i].link;
+    }
+    for(int j=1;j<=17;j++)
+    {
+      for(int i=1;i<=sz;i++)
+      {
+        sp[i][j]=sp[sp[i][j-1]][j-1];
+      }
+    }
+    dfs(0,0);
+  }
+  int lcp(int u,int v)
+  {
+    //u v are automata state. to get lcp of two suffix store the state number
+    if(lev[u]<lev[v])swap(u,v);
+    for(int i=17;i>=0;i--)
+    {
+      if(lev[u]-(1<<i)>=lev[v])
+        u=sp[u][i];
+    }
+    if(u==v)return aut[u].len;
+    for(int i=17;i>=0;i--)
+    {
+      if(sp[u][i]==-1||sp[v][i]==-1)continue;
+      if(sp[u][i]==sp[v][i])continue;
+      u=sp[u][i];v=sp[v][i];
+    }
+    return aut[aut[u].link].len;
   }
   //number of occurrences for every state;
   void occurences(int n)//n=string size;
