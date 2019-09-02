@@ -1,3 +1,7 @@
+/*
+to insert one more string make sam.last=0 before every string insertion.
+if(aut[aut[i].link].len<aut[i].len)then state i is unique.
+*/
 struct suffixAutomata
 {
   int sz,last,occur[N+N+2];
