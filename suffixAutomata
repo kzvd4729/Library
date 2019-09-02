@@ -4,16 +4,20 @@ every state defines some substring with same suffix
 suffix link of a state defines a unique substring(thats why we need clone)
 reversed suffix link form suffix tree
 */
-struct node
-{
-  int len,link,next[26];
-};
 struct suffixAutomata
 {
-  int sz,last;node aut[N+N+2];//2*insrt function call
-  suffixAutomata()
+  struct node
   {
-    sz=0,last=0;aut[0].link=-1;
+    int len,link,next[26];
+  }aut[N+N+2];//2*insrt function call
+  int sz,last;
+  void clean(int n=N)//must call before insert
+  {
+    for(int i=0;i<=n+n;i++)
+    {
+      memset(aut[i].next,0,sizeof(aut[i].next));
+    }
+    sz=0,last=0,aut[0].link=-1;
   }
   void insrt(int c)
   {
