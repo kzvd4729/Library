@@ -9,5 +9,6 @@
 --> Conversion from diamond shaped(Manhattan Distance) to square
     shaped (x,y)->(x-y,x+y);
 --> All submask for(int sub=msk;sub>0;sub=(sub-1)&msk)
+--> maximum number of divisors till n = n^(1/3);
 
 //////////////////////////////////////////////
