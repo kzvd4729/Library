@@ -1,6 +1,6 @@
 /*
 maximum flow with dinic algorithm. complexity EV^2(far better).
-a reverse edge as added to maintain the the flow.
+a reverse edge is added to maintain the alternative path.
 */
 struct flow
 {
@@ -47,7 +47,7 @@ struct flow
   }
   /*
   pushing positive flow through a path. each dfs for a path.
-  it is possible to push flow through all the. complexity is not better.
+  it is possible to push flow through all the path. complexity is not better.
   */
   int dfs(int u,int flow)
   {
