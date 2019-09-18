@@ -1,3 +1,7 @@
+/*
+maximum flow with dinic algorithm. complexity EV^2(far better).
+a reverse edge as added to maintain the the flow.
+*/
 struct flow
 {
   int sr,sn;//sr=0,sn=last u+1;
@@ -24,6 +28,7 @@ struct flow
     adj[b].push_back(ed.size());
     ed.push_back(e);
   }
+  //finding all possible path. normal bfs
   bool bfs(void)
   {
     for(int i=0;i<=sn;i++)dis[i]=inf;
@@ -40,9 +45,14 @@ struct flow
     }
     return dis[sn]!=inf;
   }
+  /*
+  pushing positive flow through a path. each dfs for a path.
+  it is possible to push flow through all the. complexity is not better.
+  */
   int dfs(int u,int flow)
   {
     if(!flow||u==sn)return flow;
+    //if there was not possible before, it is not possible now.
     for( ;pt[u]<adj[u].size();pt[u]++)
     {
       int id=adj[u][pt[u]];int v=ed[id].b;
