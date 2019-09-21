@@ -1,8 +1,3 @@
-#include<bits/stdc++.h>
-#define long long long
-using namespace std;
-const int N=1e5;
-
 /*
 if we have a polynomial of degree n-1(maximum power), with n distinct sample
 the polynomial can be uniquely determined. in other way from n sample we can
@@ -13,7 +8,6 @@ multiply them in n time and go back to polynomial form in nlgn time.
 once we convert a polynomial in sample form we can do some operation on it,
 like multiplication of several sample, power by anything, multiply by any number.
 and the end of the day, go back to polynomial land.
-
 1 x0 x0^2 x0^3 x0^4 ...   a0      b0
 1 x1 x1^2 x1^3 x1^4 ... x a1  =   b1
 1 x2 x2^2 x2^3 x2^4 ...   a2      b2
@@ -21,7 +15,6 @@ and the end of the day, go back to polynomial land.
 the matrix is called vandermonde matrix. bi is the value at point ai.
 to get ai back from bi we need to calculate the inverse of vandermonde matrix.
 luckily the inverse is
-
       1 x0^-1 x0^-2 x0^-3 x0^-4 ...   b0      a0
 1/n * 1 x1^-1 x1^-2 x1^-3 x1^-4 ... x b1  =   a1
       1 x2^-1 x2^-2 x2^-3 x2^-4 ...   b2      a2
@@ -32,23 +25,56 @@ divide and conquer: we will divide the polynomial in two segment. one containing
 only even entries and other with odd entries. polynomial A=even(x^2)+x*odd(x^2).
 so the idea is divide polynomial is half, evaluate at n points at each recursion
 level, still (n^2)lgn. but we have the freedom to choose n points as we wish.
-
 every number other than 0 has two square root. imagine in the base case when
 polynomial size is 1, we evaluate at point 1. now at the previous step when the
 size is 2, we can use -1 and 1 to evaluate because we already computed the
 value of even(x^2) and odd(x^2). when the size is 4 we can use i,-i,1,-1.
 every point evaluation is completed in O(1) and thus the complexity will be nlgn.
-
-but i,-i and all their square root are complex number. how do we represent them.
-
-
+and as points being double at every step we need the polynomial to be power of 2.
+just by padding extra 0 coefficient to the higher degree of the polynomial.
+but i,-i and all their square root are complex number.
+imagine a unit circle in complex plain.
+1, -1 are 180 degree far, call them second roots of unity
+1, i, -1, -i are 90 degree far, call them fourth roots of unity
+eighth roots of unity are 45 degree far from each other.
+so we represent complex number by their polar angle cos+isin.
+we find the angle of the roots of unity, multiply to rotate point uniformly.
 */
-
-
-int main()
+const double pi=acos(-1.0);
+void dft(vector<complex<double> >&a,bool inv)
 {
-  ios_base::sync_with_stdio(0);cin.tie(0);
+  int n=a.size();if(n==1)return ;
+  vector<complex<double> >a0(n/2),a1(n/2);
 
+  for(int i=0;i<n;i+=2)
+    a0[i]=a[i],a1[i]=a[i+1];
+  dft(a0,inv);dft(a1,inv);
 
-  return 0;
+  double ang=2*pi/n*(inv?-1:1);
+  complex<double>r(1),m(cos(ang),sin(ang));
+  for(int i=0;i<n;i+=2)
+  {
+    a[i]=a0[i/2]+r*a1[i/2];
+    a[i+1]=a0[i/2]-r*a1[i/2];
+    if(inv)
+      a[i]/=2,a[i+1]/=2;//overall divided by n
+    r*=m;
+  }
+}
+vector<int>fft(vector<int>&a,vector<int>&b)
+{
+  vector<complex<double> >fa(a.begin(),a.end());//all real part
+  vector<complex<double> >fb(a.begin(),a.end());//all real part
+  int n=1;while(n<a.size()+b.size())n*=2;
+  fa.resize(n);fb.resize(n);//padding higher degree with 0 coefficient
+
+  dft(fa,false);dft(fb,false);//now in sample form
+
+  for(int i=0;i<n;i++)//scalar operation on sample
+    fa[i]*=fb[i];
+
+  vector<int>ret(n);
+  for(int i=0;i<n;i++)
+    ret[i]=round(fa[i].real());
+  return ret;
 }
