@@ -75,7 +75,6 @@ struct fastFourierTransform
     }
   }
   //polynomial of the form a0x^0+a1x^1+a2x^2+a3x^3+.....
-  //can be extended to three or many
   vector<int>multiply(vector<int>&a,vector<int>&b)
   {
     vector<complex>fa(a.begin(),a.end());//all real part
