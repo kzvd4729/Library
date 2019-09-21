@@ -43,17 +43,28 @@ we find the angle of the roots of unity, multiply to rotate point uniformly.
 struct fastFourierTransform
 {
   const double pi=acos(-1.0);
-  void dft(vector<complex<double> >&a,bool inv)
+  struct complex
+  {
+    double x,y;
+    complex(double a=0,double b=0):x(a),y(b){}
+    complex operator+(complex c){return complex(x+c.x,y+c.y);}
+    complex operator-(complex c){return complex(x-c.x,y-c.y);}
+    complex operator*(complex c){return complex(x*c.x-y*c.y,x*c.y+y*c.x);}
+    complex operator/(double d){return complex(x/d,y/d);}
+    void operator*=(complex c){double a=x*c.x-y*c.y,b=x*c.y+y*c.x;x=a,y=b;}
+    void operator/=(double d){x/=d,y/=d;}
+  };
+  void dft(vector<complex>&a,bool inv)
   {
     int n=a.size();if(n==1)return ;
-    vector<complex<double> >a0(n/2),a1(n/2);
+    vector<complex>a0(n/2),a1(n/2);
 
     for(int i=0;i<n/2;i++)
       a0[i]=a[2*i],a1[i]=a[2*i+1];
     dft(a0,inv);dft(a1,inv);
 
     double ang=2*pi/n*(inv?-1:1);
-    complex<double>r(1),m(cos(ang),sin(ang));
+    complex r(1),m(cos(ang),sin(ang));
     for(int i=0;i<n/2;i++)
     {
       a[i]=a0[i]+r*a1[i];
@@ -67,8 +78,8 @@ struct fastFourierTransform
   //can be extended to three or many
   vector<int>multiply(vector<int>&a,vector<int>&b)
   {
-    vector<complex<double> >fa(a.begin(),a.end());//all real part
-    vector<complex<double> >fb(b.begin(),b.end());//all real part
+    vector<complex>fa(a.begin(),a.end());//all real part
+    vector<complex>fb(b.begin(),b.end());//all real part
     int n=1;while(n<a.size()+b.size())n*=2;
     fa.resize(n);fb.resize(n);//padding higher degree with 0 coefficient
 
@@ -81,25 +92,7 @@ struct fastFourierTransform
 
     vector<int>ret(n);
     for(int i=0;i<n;i++)
-      ret[i]=round(fa[i].real());
-    return ret;
-  }
-  vector<int>power(vector<int>&a,int p)
-  {
-    vector<complex<double> >fa(a.begin(),a.end());//all real part
-    int n=1;while(n<a.size())n*=2;
-    fa.resize(n);//padding higher degree with 0 coefficient
-
-    dft(fa,false);//now in sample form
-
-    for(int i=0;i<n;i++)//scalar operation on sample
-      fa[i]=pow(fa[i],p*1.0);
-
-    dft(fa,true);
-
-    vector<int>ret(n);
-    for(int i=0;i<n;i++)
-      ret[i]=round(fa[i].real());
+      ret[i]=round(fa[i].x);
     return ret;
   }
 };
