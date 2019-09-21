@@ -40,41 +40,61 @@ eighth roots of unity are 45 degree far from each other.
 so we represent complex number by their polar angle cos+isin.
 we find the angle of the roots of unity, multiply to rotate point uniformly.
 */
-const double pi=acos(-1.0);
-void dft(vector<complex<double> >&a,bool inv)
+struct fastFourierTransform
 {
-  int n=a.size();if(n==1)return ;
-  vector<complex<double> >a0(n/2),a1(n/2);
-
-  for(int i=0;i<n;i+=2)
-    a0[i]=a[i],a1[i]=a[i+1];
-  dft(a0,inv);dft(a1,inv);
-
-  double ang=2*pi/n*(inv?-1:1);
-  complex<double>r(1),m(cos(ang),sin(ang));
-  for(int i=0;i<n;i+=2)
+  const double pi=acos(-1.0);
+  void dft(vector<complex<double> >&a,bool inv)
   {
-    a[i]=a0[i/2]+r*a1[i/2];
-    a[i+1]=a0[i/2]-r*a1[i/2];
-    if(inv)
-      a[i]/=2,a[i+1]/=2;//overall divided by n
-    r*=m;
+    int n=a.size();if(n==1)return ;
+    vector<complex<double> >a0(n/2),a1(n/2);
+
+    for(int i=0;i<n;i+=2)
+      a0[i]=a[i],a1[i]=a[i+1];
+    dft(a0,inv);dft(a1,inv);
+
+    double ang=2*pi/n*(inv?-1:1);
+    complex<double>r(1),m(cos(ang),sin(ang));
+    for(int i=0;i<n;i+=2)
+    {
+      a[i]=a0[i/2]+r*a1[i/2];
+      a[i+1]=a0[i/2]-r*a1[i/2];
+      if(inv)
+        a[i]/=2,a[i+1]/=2;//overall divided by n
+      r*=m;
+    }
   }
-}
-vector<int>fft(vector<int>&a,vector<int>&b)
-{
-  vector<complex<double> >fa(a.begin(),a.end());//all real part
-  vector<complex<double> >fb(a.begin(),a.end());//all real part
-  int n=1;while(n<a.size()+b.size())n*=2;
-  fa.resize(n);fb.resize(n);//padding higher degree with 0 coefficient
+  //can be extended to three or many
+  vector<int>multiply(vector<int>&a,vector<int>&b)
+  {
+    vector<complex<double> >fa(a.begin(),a.end());//all real part
+    vector<complex<double> >fb(a.begin(),a.end());//all real part
+    int n=1;while(n<a.size()+b.size())n*=2;
+    fa.resize(n);fb.resize(n);//padding higher degree with 0 coefficient
 
-  dft(fa,false);dft(fb,false);//now in sample form
+    dft(fa,false);dft(fb,false);//now in sample form
 
-  for(int i=0;i<n;i++)//scalar operation on sample
-    fa[i]*=fb[i];
+    for(int i=0;i<n;i++)//scalar operation on sample
+      fa[i]*=fb[i];
 
-  vector<int>ret(n);
-  for(int i=0;i<n;i++)
-    ret[i]=round(fa[i].real());
-  return ret;
-}
+    vector<int>ret(n);
+    for(int i=0;i<n;i++)
+      ret[i]=round(fa[i].real());
+    return ret;
+  }
+  vector<int>power(vector<int>&a,int p)
+  {
+    vector<complex<double> >fa(a.begin(),a.end());//all real part
+    int n=1;while(n<a.size())n*=2;
+    fa.resize(n);//padding higher degree with 0 coefficient
+
+    dft(fa,false);//now in sample form
+
+    for(int i=0;i<n;i++)//scalar operation on sample
+      fa[i]=pow(fa[i],p*1.0);
+
+    vector<int>ret(n);
+    for(int i=0;i<n;i++)
+      ret[i]=round(fa[i].real());
+    return ret;
+  }
+};
