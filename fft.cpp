@@ -49,7 +49,7 @@ struct fastFourierTransform
     complex(double a=0,double b=0):x(a),y(b){}
     complex operator+(complex c){return complex(x+c.x,y+c.y);}
     complex operator-(complex c){return complex(x-c.x,y-c.y);}
-    complex operator*(complex c){return complex(x*c.x-y*c.y,x*c.y+y*c.x);}
+    complex operator*(complex c){return complex(x*c.x-y*c.y,x*c.y+y*c.x);}//complex
     complex operator/(double d){return complex(x/d,y/d);}
     void operator*=(complex c){double a=x*c.x-y*c.y,b=x*c.y+y*c.x;x=a,y=b;}
     void operator/=(double d){x/=d,y/=d;}
