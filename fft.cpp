@@ -82,7 +82,7 @@ recursion level becomes continuous and thus allow iterative implementation
 vector<int>r;
 void bitReverse(int n)//n is power of 2
 {
-  r.resize(n,0);
+  r.resize(n);for(int i=0;i<n;i++)r[i]=0;
   int p=0;while((1<<p)<n)p++;
   for(int i=0;i<n;i++)
   {
