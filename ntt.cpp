@@ -65,7 +65,7 @@ void dft(vector<int>&a,bool inv)
 vector<int>multiply(vector<int>a,vector<int>b)
 {
   int sz=a.size()+b.size();
-  int n=1;while(n<sz)n<<=1;
+  int n=1;while(n<sz)n<<=1;bitReverse(n);
   a.resize(n);b.resize(n);
   dft(a,false);dft(b,false);
   for(int i=0;i<n;i++)a[i]=(1LL*a[i]*b[i])%mod;
